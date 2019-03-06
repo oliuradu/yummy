@@ -1,28 +1,31 @@
 export const elements = {
-  searchForm: document.querySelector(".search"),
-  searchInput: document.querySelector(".search__field"),
-  searchRes: document.querySelector(".results"),
-  searchResultList: document.querySelector(".results__list"),
-  searchResPages: document.querySelector(".results__pages"),
-  recipe: document.querySelector(".recipe")
-};
+  searchForm: document.querySelector('.search'),
+  searchInput: document.querySelector('.search__field'),
+  searchRes: document.querySelector('.results'),
+  searchResultList: document.querySelector('.results__list'),
+  searchResPages: document.querySelector('.results__pages'),
+  recipe: document.querySelector('.recipe'),
+  shopping: document.querySelector('.shopping__list'),
+  likesMenu: document.querySelector('.likes__field'),
+  likeList: document.querySelector('.likes__list')
+}
 
 export const elementStrings = {
-  loader: "loader"
-};
+  loader: 'loader'
+}
 
 export const renderLoader = parent => {
-  if (parent === "recipe") {
+  if (parent === 'recipe') {
     let loader = `
         <figure id="preloader_fig" class="recipe__fig ${elementStrings.loader}">
             <div id="preloader_img" class="recipe__img"/></div>
             <h1 class="recipe__title">
               <span><span id="preloader_title"></span></span>
             </h1>
-        </figure>`;
-    document.querySelector(".recipe").innerHTML = loader;
+        </figure>`
+    document.querySelector('.recipe').innerHTML = loader
   } else {
-    let loader = `<div class="${elementStrings.loader} preloader">`;
+    let loader = `<div class="${elementStrings.loader} preloader">`
 
     for (let i = 0; i < 10; i++) {
       loader += `
@@ -32,17 +35,17 @@ export const renderLoader = parent => {
                   <div class="text-line"> </div>
                   <div class="text-line"></div>
                 </div>
-            </div>`;
+            </div>`
     }
-    loader += `</div>`;
-    parent.insertAdjacentHTML("afterbegin", loader);
+    loader += `</div>`
+    parent.insertAdjacentHTML('afterbegin', loader)
   }
-};
+}
 
 export const clearLoader = parent => {
-  const loader = document.querySelector(`.${elementStrings.loader}`);
+  const loader = document.querySelector(`.${elementStrings.loader}`)
 
   if (loader) {
-    loader.parentElement.removeChild(loader);
+    loader.parentElement.removeChild(loader)
   }
-};
+}
