@@ -66,44 +66,6 @@ elements.searchResPages.addEventListener("click", e => {
   }
 });
 /**
- * Like CONTROLLER
- */
-// TESTING
-state.likes = new Likes();
-
-const controlLike = () => {
-  if (!state.likes) state.likes = new Likes();
-  const currentID = state.recipe.id;
-  if (!state.likes.isLiked(currentID)) {
-    // Not likes yet
-    const newLike = state.likes.addLike(
-      currentID,
-      state.recipe.title,
-      state.recipe.author,
-      state.recipe.img
-    );
-    //Add like to the state
-
-    // Toggle the like button
-    likesView.toggleLikeBtn(true);
-
-    likesView.renderLike(newLike);
-
-    // Add like to the UI
-  } else {
-    state.likes.deleteLike(currentID);
-    // User HAS liked
-    //Remove like to the state
-    // Toggle the like button
-    likesView.toggleLikeBtn(false);
-    // Remove like to the UI
-    likesView.deleteLike(currentID);
-  }
-
-  likesView.toggleLikeMenu(state.likes.getNumLikes());
-};
-
-/**
  * List CONTROLLER
  */
 const controlList = () => {
@@ -153,6 +115,19 @@ const controlRecipe = async () => {
 
 ["load", "hashchange"].forEach(e => window.addEventListener(e, controlRecipe));
 
+//Restore liked recipes on page load
+window.addEventListener("load", () => {
+  state.likes = new Likes();
+
+  //Restore likes
+  state.likes.readStorage();
+
+  // Toggle like menu
+  likesView.toggleLikeMenu(state.likes.getNumLikes());
+
+  // Render the existings likes
+  state.likes.likes.forEach(like => likesView.renderLike(like));
+});
 // Handle delete and update list item events
 elements.shopping.addEventListener("click", e => {
   const id = e.target.closest(".shopping__item").dataset.itemid;
@@ -192,4 +167,38 @@ elements.recipe.addEventListener("click", e => {
   }
 });
 
-likesView.toggleLikeMenu(state.likes.getNumLikes());
+/**
+ * Like CONTROLLER
+ */
+const controlLike = () => {
+  if (!state.likes) state.likes = new Likes();
+  const currentID = state.recipe.id;
+  console.log(state.recipe);
+  if (!state.likes.isLiked(currentID)) {
+    // Not likes yet
+    const newLike = state.likes.addLike(
+      currentID,
+      state.recipe.title,
+      state.recipe.author,
+      state.recipe.image
+    );
+    //Add like to the state
+
+    // Toggle the like button
+    likesView.toggleLikeBtn(true);
+
+    likesView.renderLike(newLike);
+
+    // Add like to the UI
+  } else {
+    state.likes.deleteLike(currentID);
+    // User HAS liked
+    //Remove like to the state
+    // Toggle the like button
+    likesView.toggleLikeBtn(false);
+    // Remove like to the UI
+    likesView.deleteLike(currentID);
+  }
+
+  likesView.toggleLikeMenu(state.likes.getNumLikes());
+};
